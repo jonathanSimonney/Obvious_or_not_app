@@ -6,5 +6,6 @@ target 'Obvious_or_not' do
   use_frameworks!
 
   # Pods for Obvious_or_not
+  pod 'DZNEmptyDataSet'
   pod 'Alamofire', '~> 4.7'
 end

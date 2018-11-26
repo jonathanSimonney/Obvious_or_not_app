@@ -1,16 +1,20 @@
 PODS:
   - Alamofire (4.7.3)
+  - DZNEmptyDataSet (1.8.1)
 
 DEPENDENCIES:
   - Alamofire (~> 4.7)
+  - DZNEmptyDataSet
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
+    - DZNEmptyDataSet
 
 SPEC CHECKSUMS:
   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
+  DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
 
-PODFILE CHECKSUM: aa794d0eaf83a211046561a4c9c7555e6c5b1c32
+PODFILE CHECKSUM: e7ac2bdd9c874e89214474294f8f64090277567a
 
 COCOAPODS: 1.5.3

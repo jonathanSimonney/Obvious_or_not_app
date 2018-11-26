@@ -7,12 +7,14 @@
 //
 
 import UIKit
+import DZNEmptyDataSet
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource{
     
     var polls:[Poll] = []
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        print("called rows", polls.count)
         return polls.count
     }
     
@@ -23,17 +25,41 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //let vController = MyViewController()
+        //vController.setLabel(label: arrayName[indexPath.row])
+        
+        //navigationController?.pushViewController(vController, animated: true)
+        print("cell clicked!")
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath as IndexPath) as! PollTableCell
+        print(cell)
+        
+    }
 
+    //emptyDataset implementation
+    func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
+        return UIImage(named: "captainObvious")
+    }
+    func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
+        let myAttrString = NSAttributedString(string: "Fetching some (seamingly) obvious polls")
+        return myAttrString
+    }
+    
     var tableView: UITableView!
 
     override func viewDidLoad() {
-        tableView = UITableView(frame: self.view.frame)
-        tableView.register(PollTableCell.self, forCellReuseIdentifier: "cell")
+        super.viewDidLoad()
+        // Do any additional setup after loading the view, typically from a nib.
         
-        tableView.delegate = self
-        tableView.dataSource = self
+        self.tableView = UITableView(frame: self.view.frame)
+        self.tableView.register(PollTableCell.self, forCellReuseIdentifier: "cell")
         
-        self.view.addSubview(tableView)
+        self.tableView.delegate = self
+        self.tableView.dataSource = self
+        
+        self.view.addSubview(self.tableView)
+        
         
         getArrayPolls(completionHandler: { polls in
             self.polls = polls
@@ -41,8 +67,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             //https://github.com/dzenbot/DZNEmptyDataSet .reload
         })
         
-        super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
+        self.tableView.emptyDataSetSource = self;
+        
+        // A little trick for removing the cell separators
+        self.tableView.tableFooterView = UIView();
     }
 }
 

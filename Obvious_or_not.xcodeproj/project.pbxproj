@@ -15,6 +15,7 @@
 		84C11A9E21A449D200970908 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84C11A9C21A449D200970908 /* LaunchScreen.storyboard */; };
 		84DC17AB21A84248005516D5 /* Poll.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DC17AA21A84248005516D5 /* Poll.swift */; };
 		84DC17AD21A8570E005516D5 /* PollTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DC17AC21A8570E005516D5 /* PollTableCell.swift */; };
+		84DC17B221AC394B005516D5 /* Choice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84DC17B121AC394B005516D5 /* Choice.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 		84C11A9F21A449D200970908 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		84DC17AA21A84248005516D5 /* Poll.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Poll.swift; sourceTree = "<group>"; };
 		84DC17AC21A8570E005516D5 /* PollTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollTableCell.swift; sourceTree = "<group>"; };
+		84DC17B121AC394B005516D5 /* Choice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Choice.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +75,7 @@
 				84C11A9F21A449D200970908 /* Info.plist */,
 				84DC17AA21A84248005516D5 /* Poll.swift */,
 				84DC17AC21A8570E005516D5 /* PollTableCell.swift */,
+				84DC17B121AC394B005516D5 /* Choice.swift */,
 			);
 			path = Obvious_or_not;
 			sourceTree = "<group>";
@@ -173,12 +176,14 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Obvious_or_not/Pods-Obvious_or_not-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/DZNEmptyDataSet/DZNEmptyDataSet.framework",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/DZNEmptyDataSet.framework",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -215,6 +220,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				84C11A9621A449D100970908 /* ViewController.swift in Sources */,
+				84DC17B221AC394B005516D5 /* Choice.swift in Sources */,
 				84DC17AD21A8570E005516D5 /* PollTableCell.swift in Sources */,
 				84DC17AB21A84248005516D5 /* Poll.swift in Sources */,
 				84C11A9421A449D100970908 /* AppDelegate.swift in Sources */,
