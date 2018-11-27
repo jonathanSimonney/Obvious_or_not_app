@@ -30,10 +30,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         //vController.setLabel(label: arrayName[indexPath.row])
         
         //navigationController?.pushViewController(vController, animated: true)
-        print("cell clicked!")
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath as IndexPath) as! PollTableCell
-        print(cell)
+        //let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath as IndexPath) as! PollTableCell
+        let pollController = PollController()
+        pollController.setPoll(poll: polls[indexPath.row])
         
+        navigationController?.pushViewController(pollController, animated: true)
     }
 
     //emptyDataset implementation
