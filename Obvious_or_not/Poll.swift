@@ -36,9 +36,7 @@ func getArrayPolls(completionHandler: @escaping (Array<Poll>) -> ()) {
     
     concurrentQueue.async(execute: {
         sleep(4)
-        DispatchQueue.main.async{
-            completionHandler([Poll(id: 1, title: "un titre joli", category: "subjectif", content: "contenu intéressant", explanation: "explication", choices: [Choice(id: 1, description: "oui", voteNumber: 10, hasVoted: false), Choice(id: 2, description: "non", voteNumber: 100, hasVoted: false)], totalVotes: 110, hasVoted: false)
-                , Poll(id: 2, title: "swift ou kotlin", category: "langage", content: "contenu plus intéressant", explanation: "un doit être développé avec un mac et l'autre pas.", choices: [Choice(id: 1, description: "swift", voteNumber: 1000, hasVoted: true), Choice(id: 2, description: "kotlin", voteNumber: 100, hasVoted: false)], totalVotes: 1100, hasVoted: true)])
-        }
+        completionHandler([Poll(id: 1, title: "un titre joli", category: "subjectif", content: "contenu intéressant", explanation: "explication", choices: [Choice(id: 1, description: "oui", voteNumber: 10, hasVoted: false), Choice(id: 2, description: "non", voteNumber: 100, hasVoted: false)], totalVotes: 110, hasVoted: false)
+            , Poll(id: 2, title: "swift ou kotlin", category: "langage", content: "contenu plus intéressant", explanation: "un doit être développé avec un mac et l'autre pas.", choices: [Choice(id: 1, description: "swift", voteNumber: 1000, hasVoted: true), Choice(id: 2, description: "kotlin", voteNumber: 100, hasVoted: false)], totalVotes: 1100, hasVoted: true)])
     })
 }

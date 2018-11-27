@@ -62,7 +62,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         getArrayPolls(completionHandler: { polls in
             self.polls = polls
-            self.tableView.reloadData()
+            DispatchQueue.main.async{
+                self.tableView.reloadData()
+            }
         })
         
         self.tableView.emptyDataSetSource = self;
