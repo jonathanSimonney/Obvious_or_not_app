@@ -14,7 +14,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     var polls:[Poll] = []
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        print("called rows", polls.count)
         return polls.count
     }
     
@@ -64,7 +63,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         getArrayPolls(completionHandler: { polls in
             self.polls = polls
             self.tableView.reloadData()
-            //https://github.com/dzenbot/DZNEmptyDataSet .reload
         })
         
         self.tableView.emptyDataSetSource = self;
