@@ -10,15 +10,17 @@ import Foundation
 
 class Choice{
     //text, voteNumber, hasVoted, id
-    var id: Int
+    var id: String
     var description: String
     var voteNumber: Int
+    var percentage: Float
     var hasVoted: Bool
     
-    init(id: Int, description: String, voteNumber: Int, hasVoted: Bool){
+    init(id: String, description: String, voteNumber: Int, percentage: Float, hasVoted: Bool){
         self.id = id
         self.description = description
         self.voteNumber = voteNumber
+        self.percentage = percentage
         self.hasVoted = hasVoted
     }
 }

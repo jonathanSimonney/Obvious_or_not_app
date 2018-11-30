@@ -7,5 +7,6 @@ target 'Obvious_or_not' do
 
   # Pods for Obvious_or_not
   pod 'DZNEmptyDataSet'
+  pod 'SwiftyJSON', '~> 4.0'
   pod 'Alamofire', '~> 4.7'
 end

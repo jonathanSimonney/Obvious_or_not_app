@@ -7,21 +7,21 @@
 //
 
 import Foundation
+import Alamofire
+import SwiftyJSON
 
 class Poll {
-    var id: Int
+    var id: String
     var title: String
-    var category: String
     var content: String
     var explanation: String
     var choices: [Choice]
     var totalVotes: Int
     var hasVoted: Bool
     
-    init(id: Int, title: String, category: String, content: String, explanation: String, choices: [Choice], totalVotes: Int, hasVoted: Bool){
+    init(id: String, title: String, content: String, explanation: String, choices: [Choice], totalVotes: Int, hasVoted: Bool){
         self.id = id
         self.title = title
-        self.category = category
         self.content = content
         self.explanation = explanation
         self.choices = choices
@@ -30,13 +30,30 @@ class Poll {
     }
 }
 
+func getPollsFromJson(response: DataResponse<Any>) -> [Poll]{
+    var pollArray: [Poll] = []
+    
+    let json = JSON(response.result.value as Any)
+    for (_,jsonPoll) in json["data"]{
+        var choiceArray: [Choice] = []
+        
+        for (_,jsonChoice) in jsonPoll["options"]{
+            choiceArray.append(Choice(id: jsonChoice["_id"].stringValue, description: jsonChoice["text"].stringValue, voteNumber: jsonChoice["voteNumber"].intValue, percentage: jsonChoice["percentage"].floatValue, hasVoted: jsonChoice["hasVoted"].boolValue))
+        }
+        
+        pollArray.append(Poll(id: jsonPoll["_id"].stringValue, title: jsonPoll["title"].stringValue, content: jsonPoll["content"].stringValue, explanation: jsonPoll["explanation"].stringValue, choices: choiceArray, totalVotes: jsonPoll["totalVotes"].intValue, hasVoted: jsonPoll["hasVoted"].boolValue))
+    }
+    
+    return pollArray
+}
+
 //load the array of polls, to be changed to use alamofire
 func getArrayPolls(completionHandler: @escaping (Array<Poll>) -> ()) {
     let concurrentQueue = DispatchQueue(label: "queuename", attributes: .concurrent)
     
     concurrentQueue.async(execute: {
-        sleep(2)
-        completionHandler([Poll(id: 1, title: "un titre joli", category: "subjectif", content: "contenu intéressant", explanation: "explication", choices: [Choice(id: 1, description: "oui", voteNumber: 10, hasVoted: false), Choice(id: 2, description: "non", voteNumber: 100, hasVoted: false)], totalVotes: 110, hasVoted: false)
-            , Poll(id: 2, title: "swift ou kotlin", category: "langage", content: "contenu plus intéressant", explanation: "un doit être développé avec un mac et l'autre pas.", choices: [Choice(id: 1, description: "swift", voteNumber: 1000, hasVoted: true), Choice(id: 2, description: "kotlin", voteNumber: 100, hasVoted: false)], totalVotes: 1100, hasVoted: true)])
+        Alamofire.request("https://obvious-or-not-api.herokuapp.com/survey").responseJSON { response in
+            completionHandler(getPollsFromJson(response: response))
+        }
     })
 }
