@@ -75,10 +75,10 @@
 				84C11A9A21A449D200970908 /* Assets.xcassets */,
 				84C11A9C21A449D200970908 /* LaunchScreen.storyboard */,
 				84C11A9F21A449D200970908 /* Info.plist */,
+				84DC17B321AD88D1005516D5 /* PollController.swift */,
 				84DC17AA21A84248005516D5 /* Poll.swift */,
 				84DC17AC21A8570E005516D5 /* PollTableCell.swift */,
 				84DC17B121AC394B005516D5 /* Choice.swift */,
-				84DC17B321AD88D1005516D5 /* PollController.swift */,
 			);
 			path = Obvious_or_not;
 			sourceTree = "<group>";
