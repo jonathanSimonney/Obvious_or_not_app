@@ -26,7 +26,7 @@ class RegisterController: UIViewController, UITextFieldDelegate {
         let fieldWidth = self.view.frame.width - 48
         
         let firstLabel = UILabel()
-        firstLabel.frame = CGRect(x: 24, y: self.view.frame.height - 96, width: fieldWidth, height: 72)
+        firstLabel.frame = CGRect(x: 24, y: self.view.frame.height - 146, width: fieldWidth, height: 72)
         firstLabel.text = "En m'inscrivant, j'accepte les Conditions Générales et la Politique de Confidentialité"
         firstLabel.textColor = UIColor.white
         //firstLabel.backgroundColor = UIColor.blue
