@@ -25,13 +25,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return cell
     }
     
+    func getPollController() -> PollController{
+        fatalError("you should override this method in the child class!!!")
+    }
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         //let vController = MyViewController()
         //vController.setLabel(label: arrayName[indexPath.row])
         
         //navigationController?.pushViewController(vController, animated: true)
         //let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath as IndexPath) as! PollTableCell
-        let pollController = PollController()
+        let pollController = self.getPollController()
         pollController.setPoll(poll: polls[indexPath.row])
         
         navigationController?.pushViewController(pollController, animated: true)
