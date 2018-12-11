@@ -40,7 +40,7 @@ class RegisterController: UIViewController, UITextFieldDelegate {
         
         let inscriptionButton = UIButton()
         inscriptionButton.frame = CGRect(x: 24, y: firstLabel.frame.minY - 60, width: fieldWidth, height: 36)
-        inscriptionButton.setTitle("S'inscrire", for: .normal)
+        inscriptionButton.setTitle("Sign up", for: .normal)
         inscriptionButton.titleLabel?.textColor = UIColor.white
         inscriptionButton.backgroundColor = UIColor(white: 0, alpha: 0.5)
         inscriptionButton.titleLabel?.textAlignment = .center
@@ -156,7 +156,8 @@ class RegisterController: UIViewController, UITextFieldDelegate {
                     let jsonResponse = JSON(response.result.value as Any)
                     //print(jsonResponse)
                     if jsonResponse["status"] == 200{
-                        //log the user in and redirzect him
+                        //log the user in and redirect him
+                        self.loginHandler(loginParams: parameters)
                     }else{
                         self.showErrors(errors: [jsonResponse["error"].stringValue])
                     }
@@ -164,6 +165,18 @@ class RegisterController: UIViewController, UITextFieldDelegate {
             })
         }else{
             self.showErrors(errors: errors)
+        }
+    }
+    
+    private func loginHandler(loginParams: Parameters){
+        Alamofire.request("https://obvious-or-not-api.herokuapp.com/auth", method: .post, parameters: loginParams).responseJSON{ loginResponse
+            in
+            let jsonLoginResponse = JSON(loginResponse.result.value as Any)
+            
+            let cache = UserDefaults.standard
+            cache.set(jsonLoginResponse["token"].stringValue, forKey: "userToken")
+            
+            self.showRightStoryboard()
         }
     }
     

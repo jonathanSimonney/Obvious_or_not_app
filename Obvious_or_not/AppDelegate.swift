@@ -15,7 +15,26 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        self.window = UIWindow(frame: UIScreen.main.bounds)
+        
         // Override point for customization after application launch.
+        let cache = UserDefaults.standard
+        let isUserLoggedIn = (cache.string(forKey: "userToken") != nil) as Bool
+        
+        var storyboard :UIStoryboard
+        var rootController :UITabBarController
+        
+        if isUserLoggedIn{
+            storyboard = UIStoryboard(name: "LoggedIn", bundle: nil)
+            rootController = storyboard.instantiateViewController(withIdentifier: "loggedInMainController") as! UITabBarController
+        }else{
+            storyboard = UIStoryboard(name: "Main", bundle: nil)
+            rootController = storyboard.instantiateViewController(withIdentifier: "loggedOutMainController") as! UITabBarController
+        }
+        
+        self.window?.rootViewController = rootController
+        self.window?.makeKeyAndVisible()
+        
         return true
     }
 
