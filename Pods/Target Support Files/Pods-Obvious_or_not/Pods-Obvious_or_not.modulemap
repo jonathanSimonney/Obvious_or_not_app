@@ -1,6 +1,0 @@
-framework module Pods_Obvious_or_not {
-  umbrella header "Pods-Obvious_or_not-umbrella.h"
-
-  export *
-  module * { export * }
-}

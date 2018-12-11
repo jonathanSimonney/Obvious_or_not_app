@@ -7,9 +7,15 @@
 //
 
 import UIKit
+import Alamofire
+import SwiftyJSON
 
 class RegisterController: UIViewController, UITextFieldDelegate {
 
+    var usernameSignUpField: UITextField?
+    var passwordSignUpField: UITextField?
+    var verifSignUpField: UITextField?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -21,13 +27,11 @@ class RegisterController: UIViewController, UITextFieldDelegate {
         
         view.addGestureRecognizer(tap)
         
-        self.view.backgroundColor = UIColor.green
-        
         let fieldWidth = self.view.frame.width - 48
         
         let firstLabel = UILabel()
         firstLabel.frame = CGRect(x: 24, y: self.view.frame.height - 146, width: fieldWidth, height: 72)
-        firstLabel.text = "En m'inscrivant, j'accepte les Conditions Générales et la Politique de Confidentialité"
+        firstLabel.text = "By signing in, I accept the generals conditions and the confidentiality policy."
         firstLabel.textColor = UIColor.white
         //firstLabel.backgroundColor = UIColor.blue
         firstLabel.numberOfLines = 2
@@ -42,83 +46,52 @@ class RegisterController: UIViewController, UITextFieldDelegate {
         inscriptionButton.titleLabel?.textAlignment = .center
         inscriptionButton.layer.cornerRadius = 10
         
-        let verifField = UITextField()
-        verifField.returnKeyType = UIReturnKeyType.continue
-        verifField.frame = CGRect(x: 24, y: inscriptionButton.frame.minY - 60, width: fieldWidth, height: 36)
-        verifField.layer.cornerRadius = 10
-        verifField.attributedPlaceholder = NSAttributedString(string: "Vérification du mot de passe",
+        self.verifSignUpField = UITextField()
+        verifSignUpField?.returnKeyType = UIReturnKeyType.continue
+        verifSignUpField?.frame = CGRect(x: 24, y: inscriptionButton.frame.minY - 60, width: fieldWidth, height: 36)
+        verifSignUpField?.layer.cornerRadius = 10
+        verifSignUpField?.attributedPlaceholder = NSAttributedString(string: "password verification",
                                                               attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
-        verifField.backgroundColor = UIColor(white: 1, alpha: 0.5)
+        verifSignUpField?.backgroundColor = UIColor(white: 1, alpha: 0.5)
         
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 36))
-        verifField.leftView = paddingView
-        verifField.leftViewMode = UITextField.ViewMode.always
-        verifField.tag = 1
-        verifField.keyboardAppearance = .dark
-        verifField.delegate = self
-        verifField.isSecureTextEntry = true
+        verifSignUpField?.leftView = paddingView
+        verifSignUpField?.leftViewMode = UITextField.ViewMode.always
+        verifSignUpField?.tag = 1
+        verifSignUpField?.keyboardAppearance = .dark
+        verifSignUpField?.delegate = self
+        verifSignUpField?.isSecureTextEntry = true
         
-        let passwordField = UITextField()
-        passwordField.returnKeyType = UIReturnKeyType.continue
-        passwordField.frame = CGRect(x: 24, y: verifField.frame.minY - 60, width: fieldWidth, height: 36)
-        passwordField.layer.cornerRadius = 10
-        passwordField.attributedPlaceholder = NSAttributedString(string: "mot de passe",
+        self.passwordSignUpField = UITextField()
+        passwordSignUpField?.returnKeyType = UIReturnKeyType.continue
+        passwordSignUpField?.frame = CGRect(x: 24, y: (verifSignUpField?.frame.minY)! - 60, width: fieldWidth, height: 36)
+        passwordSignUpField?.layer.cornerRadius = 10
+        passwordSignUpField?.attributedPlaceholder = NSAttributedString(string: "password",
                                                                  attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
-        passwordField.backgroundColor = UIColor(white: 1, alpha: 0.5)
+        passwordSignUpField?.backgroundColor = UIColor(white: 1, alpha: 0.5)
         
         let secondPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 36))
-        passwordField.leftView = secondPaddingView
-        passwordField.leftViewMode = UITextField.ViewMode.always
-        passwordField.tag = 2
-        passwordField.keyboardAppearance = .dark
-        passwordField.delegate = self
-        passwordField.isSecureTextEntry = true
+        passwordSignUpField?.leftView = secondPaddingView
+        passwordSignUpField?.leftViewMode = UITextField.ViewMode.always
+        passwordSignUpField?.tag = 2
+        passwordSignUpField?.keyboardAppearance = .dark
+        passwordSignUpField?.delegate = self
+        passwordSignUpField?.isSecureTextEntry = true
         
-        let emailField = UITextField()
-        emailField.returnKeyType = UIReturnKeyType.continue
-        emailField.frame = CGRect(x: 24, y: passwordField.frame.minY - 60, width: fieldWidth, height: 36)
-        emailField.layer.cornerRadius = 10
-        emailField.attributedPlaceholder = NSAttributedString(string: "Email",
-                                                              attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
-        emailField.backgroundColor = UIColor(white: 1, alpha: 0.5)
-        
-        let emailPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 36))
-        emailField.leftView = emailPaddingView
-        emailField.leftViewMode = UITextField.ViewMode.always
-        emailField.tag = 3
-        emailField.keyboardAppearance = .dark
-        emailField.keyboardType = .emailAddress
-        emailField.delegate = self
-        
-        let nameField = UITextField()
-        nameField.returnKeyType = UIReturnKeyType.continue
-        nameField.frame = CGRect(x: 24, y: emailField.frame.minY - 60, width: fieldWidth, height: 36)
-        nameField.layer.cornerRadius = 10
-        nameField.attributedPlaceholder = NSAttributedString(string: "Nom",
-                                                             attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
-        nameField.backgroundColor = UIColor(white: 1, alpha: 0.5)
-        
-        let namePaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 36))
-        nameField.leftView = namePaddingView
-        nameField.leftViewMode = UITextField.ViewMode.always
-        nameField.tag = 4
-        nameField.keyboardAppearance = .dark
-        nameField.delegate = self
-        
-        let firstNameField = UITextField()
-        firstNameField.returnKeyType = UIReturnKeyType.continue
-        firstNameField.frame = CGRect(x: 24, y: nameField.frame.minY - 60, width: fieldWidth, height: 36)
-        firstNameField.layer.cornerRadius = 10
-        firstNameField.attributedPlaceholder = NSAttributedString(string: "Prénom",
+        self.usernameSignUpField = UITextField()
+        usernameSignUpField?.returnKeyType = UIReturnKeyType.continue
+        usernameSignUpField?.frame = CGRect(x: 24, y: (passwordSignUpField?.frame.minY)! - 60, width: fieldWidth, height: 36)
+        usernameSignUpField?.layer.cornerRadius = 10
+        usernameSignUpField?.attributedPlaceholder = NSAttributedString(string: "Username",
                                                                   attributes: [NSAttributedString.Key.foregroundColor: UIColor.gray])
-        firstNameField.backgroundColor = UIColor(white: 1, alpha: 0.5)
+        usernameSignUpField?.backgroundColor = UIColor(white: 1, alpha: 0.5)
         
-        let firstNamePaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 36))
-        firstNameField.leftView = firstNamePaddingView
-        firstNameField.leftViewMode = UITextField.ViewMode.always
-        firstNameField.tag = 5
-        firstNameField.keyboardAppearance = .dark
-        firstNameField.delegate = self
+        let usernamePaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 36))
+        usernameSignUpField?.leftView = usernamePaddingView
+        usernameSignUpField?.leftViewMode = UITextField.ViewMode.always
+        usernameSignUpField?.tag = 5
+        usernameSignUpField?.keyboardAppearance = .dark
+        usernameSignUpField?.delegate = self
         
         let imgBg = UIImageView()
         imgBg.image = UIImage(named: "background")
@@ -127,11 +100,11 @@ class RegisterController: UIViewController, UITextFieldDelegate {
         self.view.addSubview(imgBg)
         self.view.addSubview(firstLabel)
         self.view.addSubview(inscriptionButton)
-        self.view.addSubview(verifField)
-        self.view.addSubview(passwordField)
-        self.view.addSubview(emailField)
-        self.view.addSubview(nameField)
-        self.view.addSubview(firstNameField)
+        self.view.addSubview(verifSignUpField!)
+        self.view.addSubview(passwordSignUpField!)
+        self.view.addSubview(usernameSignUpField!)
+        
+        inscriptionButton.addTarget(self, action: #selector(register), for: .touchDown)
     }
     
     
@@ -153,6 +126,56 @@ class RegisterController: UIViewController, UITextFieldDelegate {
         view.endEditing(true)
     }
     
+    @objc private func register(){
+        let concurrentQueue = DispatchQueue(label: "registerQueue", attributes: .concurrent)
+        
+        var errors = [String]()
+    
+        if self.passwordSignUpField?.text == ""{
+            errors.append("The password field is required")
+        }
+        
+        if self.usernameSignUpField?.text == ""{
+            errors.append("The username field is required")
+        }
+        
+        if self.passwordSignUpField?.text != self.verifSignUpField?.text && self.passwordSignUpField?.text != ""{
+            errors.append("you must enter the same password in password and verification password field")
+        }
+        
+        if errors.count == 0{
+            let parameters: Parameters = [
+                "username": self.usernameSignUpField?.text ?? "",
+                "password": self.passwordSignUpField?.text ?? "",
+                ]
+            
+            
+            concurrentQueue.async(execute: {
+                Alamofire.request("https://obvious-or-not-api.herokuapp.com/user", method: .post, parameters: parameters).responseJSON { response in
+                    //completionHandler(getPollsFromJson(response: response))
+                    let jsonResponse = JSON(response.result.value as Any)
+                    //print(jsonResponse)
+                    if jsonResponse["status"] == 200{
+                        //log the user in and redirzect him
+                    }else{
+                        self.showErrors(errors: [jsonResponse["error"].stringValue])
+                    }
+                }
+            })
+        }else{
+            self.showErrors(errors: errors)
+        }
+    }
+    
+    private func showErrors(errors: [String]){
+        var errorString = ""
+        
+        for singleError in errors{
+            errorString += singleError + "\n"
+        }
+        
+        AlertHelper.displaySimpleAlert(title: "error", message: errorString, type: .error)
+    }
 
     /*
     // MARK: - Navigation
