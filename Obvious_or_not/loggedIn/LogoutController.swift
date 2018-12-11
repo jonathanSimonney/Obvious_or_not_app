@@ -13,7 +13,10 @@ class LogoutController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
+        // Override point for customization after application launch.
+        let cache = UserDefaults.standard
+        cache.removeObject(forKey: "userToken")
+        self.showRightStoryboard()
     }
     
 
