@@ -38,9 +38,9 @@ class PollController: UIViewController {
         
         self.view.addSubviewGrid(titleView, grid: [0, 4, 1, 5], collNumber: 1, rowNumber: 40)
         self.view.addSubviewGrid(contentView, grid: [0, 7, 1, 10], collNumber: 1, rowNumber: 40)
-        self.view.addSubviewGrid(explanationView, grid: [0, 11, 1, 14], collNumber: 1, rowNumber: 40)
-        self.view.addSubviewGrid(choiceContainer, grid: [0, 15, 1, 16 + numberChoice], collNumber: 1, rowNumber: 40)
-        self.view.addSubviewGrid(totalVotesView, grid: [0, 17 + numberChoice, 1, 18 + numberChoice], collNumber: 1, rowNumber: 40)
+        self.view.addSubviewGrid(choiceContainer, grid: [0, 11, 1, 12 + numberChoice], collNumber: 1, rowNumber: 40)
+        self.view.addSubviewGrid(totalVotesView, grid: [0, 13 + numberChoice, 1, 14 + numberChoice], collNumber: 1, rowNumber: 40)
+        self.view.addSubviewGrid(explanationView, grid: [0, 15 + numberChoice, 1, 18 + numberChoice], collNumber: 1, rowNumber: 40)
         
         for (index, choice) in unwrappedPoll.choices.enumerated(){
             let choiceView = UILabel()
