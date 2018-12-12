@@ -17,6 +17,8 @@ class PollController: UIViewController {
     var totalVotesView = UILabel()
     var choiceWithPercentContainer = UIView()
     var choiceWithoutPercentContainer = UIView()
+    let startingTag = 100
+    var choicesId: [String] = [String]()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,6 +57,13 @@ class PollController: UIViewController {
             choiceViewWithoutPercent.text = choice.description
             choiceViewWithoutPercent.text = choice.description
             
+            //adding the touch listener for choiceView without percentage
+            let tap = UITapGestureRecognizer(target: self, action: #selector(vote))
+            choiceViewWithoutPercent.isUserInteractionEnabled = true
+            choiceViewWithoutPercent.addGestureRecognizer(tap)
+            choiceViewWithoutPercent.tag = startingTag + index
+            choicesId.append(choice.id)
+            
             choiceWithoutPercentContainer.addSubviewGrid(choiceViewWithoutPercent, grid: [0, index, 1, index + 1], collNumber: 1, rowNumber: numberChoice)
         }
         
@@ -63,6 +72,11 @@ class PollController: UIViewController {
         }else{
             self.hideUnvotedPart()
         }
+    }
+    
+    @objc func vote(sender:UITapGestureRecognizer){
+        print("tap detected")
+        print(choicesId[sender.view!.tag - startingTag])
     }
     
     func shouldShowUnvotedPart() -> Bool{

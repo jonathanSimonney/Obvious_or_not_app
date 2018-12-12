@@ -17,9 +17,6 @@ extension UIViewController {
         var storyboardPath :String
         var storyboardControllerId :String
         
-        print(isUserLoggedIn)
-        print("method called")
-        
         if isUserLoggedIn{
             storyboardPath = "LoggedIn"
             storyboardControllerId = "loggedInMainController"
