@@ -13,8 +13,6 @@ class LoggedInViewController: ViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("logged in view controller loaded")
-
         // Do any additional setup after loading the view.
     }
     

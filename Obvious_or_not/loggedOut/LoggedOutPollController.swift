@@ -12,8 +12,10 @@ class LoggedOutPollController: PollController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        print("logged out view for a poll loaded")
+    }
+    
+    override func shouldShowUnvotedPart() -> Bool{
+        return false
     }
     
 

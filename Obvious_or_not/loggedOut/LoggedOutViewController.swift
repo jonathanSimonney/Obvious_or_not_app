@@ -14,11 +14,9 @@ class LoggedOutViewController: ViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        print("logged out view controller loaded")
     }
     
     override func getPollController() -> PollController{
-        print("function override called")
         return LoggedOutPollController()
     }
     

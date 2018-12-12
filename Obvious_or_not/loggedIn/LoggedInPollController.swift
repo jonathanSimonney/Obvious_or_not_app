@@ -12,10 +12,14 @@ class LoggedInPollController: PollController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        print("logged in view for a poll loaded")
     }
     
+    override func shouldShowUnvotedPart() -> Bool{
+        if !(self.poll?.hasVoted ?? false){
+            return false
+        }
+        return true
+    }
 
     /*
     // MARK: - Navigation
