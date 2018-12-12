@@ -77,6 +77,11 @@ class PollController: UIViewController {
     @objc func vote(sender:UITapGestureRecognizer){
         print("tap detected")
         print(choicesId[sender.view!.tag - startingTag])
+        self.voteOnChoiceWith(id: choicesId[sender.view!.tag - startingTag])
+    }
+    
+    func voteOnChoiceWith(id: String){
+        fatalError("this method should be overridden in loggedIn and loggedOut pollController")
     }
     
     func shouldShowUnvotedPart() -> Bool{
