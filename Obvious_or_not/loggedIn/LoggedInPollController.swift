@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Alamofire
+import SwiftyJSON
 
 class LoggedInPollController: PollController {
 
@@ -21,6 +23,40 @@ class LoggedInPollController: PollController {
         return true
     }
 
+    override func voteOnChoiceWith(id: String){
+        let headers: HTTPHeaders = [
+            "x-access-token": UserDefaults.standard.string(forKey: "userToken")!
+        ]
+        
+        Alamofire.request("https://obvious-or-not-api.herokuapp.com/survey/" + id, method: .post, headers: headers).responseJSON { response in
+            //completionHandler(getPollsFromJson(response: response))
+            let jsonResponse = JSON(response.result.value as Any)
+            
+            if jsonResponse["status"] == 200{
+                getArrayPolls(completionHandler: { polls in
+                    if let foo = polls.first(where: {$0.id == self.poll?.id}) {
+                        self.setPoll(poll: foo)
+                        self.revealUnvotedPart()
+                    } else {
+                        self.showErrors(errors: ["There was an error updating the poll, please refresh the app"])
+                    }
+                })
+            }else{
+                self.showErrors(errors: [jsonResponse["error"].stringValue])
+            }
+        }
+    }
+    
+    private func showErrors(errors: [String]){
+        var errorString = ""
+        
+        for singleError in errors{
+            errorString += singleError + "\n"
+        }
+        
+        AlertHelper.displaySimpleAlert(title: "error", message: errorString, type: .error)
+    }
+    
     /*
     // MARK: - Navigation
 

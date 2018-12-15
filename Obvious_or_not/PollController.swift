@@ -19,6 +19,7 @@ class PollController: UIViewController {
     var choiceWithoutPercentContainer = UIView()
     let startingTag = 100
     var choicesId: [String] = [String]()
+    var allChoicesWithPercent: [UILabel] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -51,6 +52,8 @@ class PollController: UIViewController {
             choiceViewWithPercent.text = choice.description
             choiceViewWithPercent.text = choice.description + " " + choice.percentage.description + "%"
             
+            self.allChoicesWithPercent.append(choiceViewWithPercent)
+            
             choiceWithPercentContainer.addSubviewGrid(choiceViewWithPercent, grid: [0, index, 1, index + 1], collNumber: 1, rowNumber: numberChoice)
             
             let choiceViewWithoutPercent = UILabel()
@@ -75,8 +78,6 @@ class PollController: UIViewController {
     }
     
     @objc func vote(sender:UITapGestureRecognizer){
-        print("tap detected")
-        print(choicesId[sender.view!.tag - startingTag])
         self.voteOnChoiceWith(id: choicesId[sender.view!.tag - startingTag])
     }
     
@@ -96,6 +97,13 @@ class PollController: UIViewController {
     }
     
     func revealUnvotedPart(){
+        self.totalVotesView.text =  String(self.poll!.totalVotes) + " votes"
+        
+        for (index, choice) in (self.poll?.choices.enumerated())!{
+            let choiceToChange = self.allChoicesWithPercent[index]
+            choiceToChange.text = choice.description + " " + choice.percentage.description + "%"
+        }
+
         self.explanationView.isHidden = false
         self.totalVotesView.isHidden = false
         self.choiceWithPercentContainer.isHidden = false

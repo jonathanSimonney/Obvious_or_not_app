@@ -51,8 +51,21 @@ func getPollsFromJson(response: DataResponse<Any>) -> [Poll]{
 func getArrayPolls(completionHandler: @escaping (Array<Poll>) -> ()) {
     let concurrentQueue = DispatchQueue(label: "queuename", attributes: .concurrent)
     
+    let potToken = UserDefaults.standard.string(forKey: "userToken")
+    var headers: HTTPHeaders
+    
+    if (potToken != nil) {
+        headers = [
+            "x-access-token": UserDefaults.standard.string(forKey: "userToken")!
+        ]
+    } else {
+        headers = [
+            "stuff": "xx"
+        ]
+    }
+    
     concurrentQueue.async(execute: {
-        Alamofire.request("https://obvious-or-not-api.herokuapp.com/survey").responseJSON { response in
+        Alamofire.request("https://obvious-or-not-api.herokuapp.com/survey", headers: headers).responseJSON { response in
             completionHandler(getPollsFromJson(response: response))
         }
     })

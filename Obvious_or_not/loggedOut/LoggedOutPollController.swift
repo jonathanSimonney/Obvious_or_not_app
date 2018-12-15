@@ -17,8 +17,13 @@ class LoggedOutPollController: PollController {
     override func shouldShowUnvotedPart() -> Bool{
         return false
     }
-    
 
+    override func voteOnChoiceWith(id: String){
+        let secondViewController:UIViewController = RegisterController()
+        
+        self.present(secondViewController, animated: true, completion: nil)
+    }
+    
     /*
     // MARK: - Navigation
 
