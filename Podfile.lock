@@ -2,12 +2,14 @@ PODS:
   - Alamofire (4.7.3)
   - CDAlertView (0.8.3)
   - DZNEmptyDataSet (1.8.1)
+  - ReachabilitySwift (4.3.0)
   - SwiftyJSON (4.1.0)
 
 DEPENDENCIES:
   - Alamofire (~> 4.7)
   - CDAlertView
   - DZNEmptyDataSet
+  - ReachabilitySwift
   - SwiftyJSON (~> 4.0)
 
 SPEC REPOS:
@@ -15,14 +17,16 @@ SPEC REPOS:
     - Alamofire
     - CDAlertView
     - DZNEmptyDataSet
+    - ReachabilitySwift
     - SwiftyJSON
 
 SPEC CHECKSUMS:
   Alamofire: c7287b6e5d7da964a70935e5db17046b7fde6568
   CDAlertView: 7ec9ce91ccd800a66a18f7fd92a9dea20c5326a2
   DZNEmptyDataSet: 9525833b9e68ac21c30253e1d3d7076cc828eaa7
+  ReachabilitySwift: 408477d1b6ed9779dba301953171e017c31241f3
   SwiftyJSON: c29297daf073d2aa016295d5809cdd68045c39b3
 
-PODFILE CHECKSUM: 6f6e686da61121c2bd174591c5beeaa6e7f274de
+PODFILE CHECKSUM: ebcd42e85d2c0609f0de4edb247e274697f56c10
 
 COCOAPODS: 1.5.3

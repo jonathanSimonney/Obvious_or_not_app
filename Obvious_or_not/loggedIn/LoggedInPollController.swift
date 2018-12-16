@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
+import Reachability
 
 class LoggedInPollController: PollController {
 
@@ -24,27 +25,34 @@ class LoggedInPollController: PollController {
     }
 
     override func voteOnChoiceWith(id: String){
-        let headers: HTTPHeaders = [
-            "x-access-token": UserDefaults.standard.string(forKey: "userToken")!
-        ]
         
-        Alamofire.request("https://obvious-or-not-api.herokuapp.com/survey/" + id, method: .post, headers: headers).responseJSON { response in
-            //completionHandler(getPollsFromJson(response: response))
-            let jsonResponse = JSON(response.result.value as Any)
+        let reachability = Reachability()
+        
+        if reachability!.connection != .none{
+            let headers: HTTPHeaders = [
+                "x-access-token": UserDefaults.standard.string(forKey: "userToken")!
+            ]
             
-            if jsonResponse["status"] == 200{
-                getArrayPolls(completionHandler: { polls in
-                    if let foo = polls.first(where: {$0.id == self.poll?.id}) {
-                        self.setPoll(poll: foo)
-                        self.revealUnvotedPart()
-                        self.updateCurrentPollInCache()
-                    } else {
-                        self.showErrors(errors: ["There was an error updating the poll, please refresh the app"])
-                    }
-                })
-            }else{
-                self.showErrors(errors: [jsonResponse["error"].stringValue])
+            Alamofire.request("https://obvious-or-not-api.herokuapp.com/survey/" + id, method: .post, headers: headers).responseJSON { response in
+                //completionHandler(getPollsFromJson(response: response))
+                let jsonResponse = JSON(response.result.value as Any)
+                
+                if jsonResponse["status"] == 200{
+                    getArrayPolls(completionHandler: { polls in
+                        if let foo = polls.first(where: {$0.id == self.poll?.id}) {
+                            self.setPoll(poll: foo)
+                            self.revealUnvotedPart()
+                            self.updateCurrentPollInCache()
+                        } else {
+                            self.showErrors(errors: ["There was an error updating the poll, please refresh the app"])
+                        }
+                    })
+                }else{
+                    self.showErrors(errors: [jsonResponse["error"].stringValue])
+                }
             }
+        }else{
+            AlertHelper.displaySimpleAlert(title: "connection required", message: "looks like you're currently not connected to the net. Please try again when you are to vote on a poll.", type: .warning)
         }
     }
     

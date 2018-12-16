@@ -8,8 +8,9 @@
 
 import UIKit
 import DZNEmptyDataSet
+import Reachability
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource{
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, DZNEmptyDataSetSource, DZNEmptyDataSetDelegate{
     
     var polls:[Poll] = []
     
@@ -47,15 +48,25 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
 
     //emptyDataset implementation
-    func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
-        return UIImage(named: "captainObvious")
-    }
+    //func image(forEmptyDataSet scrollView: UIScrollView!) -> UIImage! {
+      //  return UIImage(named: "captainObvious")
+    //}
     func title(forEmptyDataSet scrollView: UIScrollView!) -> NSAttributedString! {
         let myAttrString = NSAttributedString(string: "Fetching some (seamingly) obvious polls")
         return myAttrString
     }
     
+    func buttonTitle(forEmptyDataSet scrollView: UIScrollView!, for state: UIControlState) -> NSAttributedString! {
+        let myAttrString = NSAttributedString(string: "I'm online, give me the polls!")
+        return myAttrString
+    }
+    
+    func emptyDataSet(_ scrollView: UIScrollView!, didTap button: UIButton!) {
+        self.fetchPollsData()
+    }
+    
     var tableView: UITableView!
+    private let refreshControl = UIRefreshControl()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,21 +77,15 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         self.tableView.delegate = self
         self.tableView.dataSource = self
+        self.tableView.refreshControl = refreshControl
+        refreshControl.addTarget(self, action: #selector(refreshPollsData(_:)), for: .valueChanged)
         
         self.view.addSubview(self.tableView)
         
-        
-        getArrayPolls(completionHandler: { polls in
-            self.polls = polls
-            
-            ArchiveUtil.savePolls(polls: polls)
-            
-            DispatchQueue.main.async{
-                self.tableView.reloadData()
-            }
-        })
+        self.fetchPollsData()
         
         self.tableView.emptyDataSetSource = self;
+        self.tableView.emptyDataSetDelegate = self
         
         // A little trick for removing the cell separators
         self.tableView.tableFooterView = UIView();
@@ -89,6 +94,33 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     override func viewWillAppear(_ animated: Bool) {
         self.polls = ArchiveUtil.loadPolls()
         self.tableView.reloadData()
+    }
+    
+    @objc private func refreshPollsData(_ sender: Any) {
+        // Fetch Weather Data
+        fetchPollsData()
+    }
+
+    private func fetchPollsData(){
+        let reachability = Reachability()
+        
+        if reachability!.connection != .none{
+            getArrayPolls(completionHandler: { polls in
+                self.polls = polls
+                
+                ArchiveUtil.savePolls(polls: polls)
+                
+                DispatchQueue.main.async{
+                    self.tableView.reloadData()
+                    self.refreshControl.endRefreshing()
+                }
+            })
+        }else{
+            self.refreshControl.endRefreshing()
+            AlertHelper.displaySimpleAlert(title: "connection required", message: "looks like you're currently not connected to the net. Please try again when you are to update the poll.", type: .warning)
+            self.polls = ArchiveUtil.loadPolls()
+            self.tableView.reloadData()
+        }
     }
 }
 

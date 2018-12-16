@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import SwiftyJSON
+import Reachability
 
 class RegisterController: UIViewController, UITextFieldDelegate {
 
@@ -17,6 +18,7 @@ class RegisterController: UIViewController, UITextFieldDelegate {
     var verifSignUpField: UITextField?
     var usernameSignInField: UITextField?
     var passwordSignInField: UITextField?
+    let reachability = Reachability()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -184,7 +186,11 @@ class RegisterController: UIViewController, UITextFieldDelegate {
                 "password": self.passwordSignInField?.text ?? "",
                 ]
             
-            self.loginHandler(loginParams: parameters)
+            if reachability!.connection != .none{
+                self.loginHandler(loginParams: parameters)
+            }else{
+                AlertHelper.displaySimpleAlert(title: "connection required", message: "looks like you're currently not connected to the net. Please try again when you are to login.", type: .warning)
+            }
         }else{
             self.showErrors(errors: errors)
         }
@@ -213,20 +219,22 @@ class RegisterController: UIViewController, UITextFieldDelegate {
                 "password": self.passwordSignUpField?.text ?? "",
                 ]
             
-            
-            concurrentQueue.async(execute: {
-                Alamofire.request("https://obvious-or-not-api.herokuapp.com/user", method: .post, parameters: parameters).responseJSON { response in
-                    //completionHandler(getPollsFromJson(response: response))
-                    let jsonResponse = JSON(response.result.value as Any)
-                    //print(jsonResponse)
-                    if jsonResponse["status"] == 200{
-                        //log the user in and redirect him
-                        self.loginHandler(loginParams: parameters)
-                    }else{
-                        self.showErrors(errors: [jsonResponse["error"].stringValue])
+            if reachability!.connection != .none{
+                concurrentQueue.async(execute: {
+                    Alamofire.request("https://obvious-or-not-api.herokuapp.com/user", method: .post, parameters: parameters).responseJSON { response in
+                        let jsonResponse = JSON(response.result.value as Any)
+                        //print(jsonResponse)
+                        if jsonResponse["status"] == 200{
+                            //log the user in and redirect him
+                            self.loginHandler(loginParams: parameters)
+                        }else{
+                            self.showErrors(errors: [jsonResponse["error"].stringValue])
+                        }
                     }
-                }
-            })
+                })
+            }else{
+                AlertHelper.displaySimpleAlert(title: "connection required", message: "looks like you're currently not connected to the net. Please try again when you are to register.", type: .warning)
+            }
         }else{
             self.showErrors(errors: errors)
         }
