@@ -37,6 +37,7 @@ class LoggedInPollController: PollController {
                     if let foo = polls.first(where: {$0.id == self.poll?.id}) {
                         self.setPoll(poll: foo)
                         self.revealUnvotedPart()
+                        self.updateCurrentPollInCache()
                     } else {
                         self.showErrors(errors: ["There was an error updating the poll, please refresh the app"])
                     }
@@ -45,6 +46,18 @@ class LoggedInPollController: PollController {
                 self.showErrors(errors: [jsonResponse["error"].stringValue])
             }
         }
+    }
+    
+    private func updateCurrentPollInCache(){        
+        var myPolls = ArchiveUtil.loadPolls()
+        // create it from scratch then store in the cache
+        for (index, poll) in myPolls.enumerated(){
+            if poll.id == self.poll?.id{
+                myPolls[index] = self.poll!
+                break
+            }
+        }
+        ArchiveUtil.savePolls(polls: myPolls)
     }
     
     private func showErrors(errors: [String]){

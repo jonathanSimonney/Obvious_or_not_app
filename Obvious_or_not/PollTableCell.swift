@@ -10,9 +10,14 @@ import Foundation
 import UIKit
 
 class PollTableCell: UITableViewCell{
+    var cellTitle = UILabel()
+    var wasInitialisedOnce = false
+    
     func prepareView(title: String){
-        let cellTitle = UILabel()
         cellTitle.text = title
-        self.contentView.addSubviewGrid(cellTitle, grid: [1, 0, 12, 1], collNumber: 12, rowNumber: 1)
+        if (!wasInitialisedOnce){
+            wasInitialisedOnce = true
+            self.contentView.addSubviewGrid(cellTitle, grid: [1, 0, 12, 1], collNumber: 12, rowNumber: 1)
+        }
     }
 }

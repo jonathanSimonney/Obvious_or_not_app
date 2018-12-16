@@ -67,6 +67,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         getArrayPolls(completionHandler: { polls in
             self.polls = polls
+            
+            ArchiveUtil.savePolls(polls: polls)
+            
             DispatchQueue.main.async{
                 self.tableView.reloadData()
             }
@@ -76,6 +79,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         
         // A little trick for removing the cell separators
         self.tableView.tableFooterView = UIView();
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.polls = ArchiveUtil.loadPolls()
+        self.tableView.reloadData()
     }
 }
 

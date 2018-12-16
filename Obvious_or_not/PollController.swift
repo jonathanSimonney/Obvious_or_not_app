@@ -49,8 +49,8 @@ class PollController: UIViewController {
         
         for (index, choice) in unwrappedPoll.choices.enumerated(){
             let choiceViewWithPercent = UILabel()
-            choiceViewWithPercent.text = choice.description
-            choiceViewWithPercent.text = choice.description + " " + choice.percentage.description + "%"
+            choiceViewWithPercent.text = choice.summary
+            choiceViewWithPercent.text = choice.summary + " " + choice.percentage.description + "%"
             
             self.allChoicesWithPercent.append(choiceViewWithPercent)
             

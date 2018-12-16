@@ -16,6 +16,7 @@
 		841BDFC521C00FF40043569B /* StoryboardHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841BDFC421C00FF40043569B /* StoryboardHelper.swift */; };
 		841BDFC921C01F390043569B /* LoggedInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841BDFC821C01F390043569B /* LoggedInViewController.swift */; };
 		841BDFCB21C020560043569B /* LoggedInPollController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 841BDFCA21C020560043569B /* LoggedInPollController.swift */; };
+		8476EC7221C6764400F5B2EB /* PollArchiver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8476EC7121C6764400F5B2EB /* PollArchiver.swift */; };
 		84C11A9421A449D100970908 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C11A9321A449D100970908 /* AppDelegate.swift */; };
 		84C11A9621A449D100970908 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84C11A9521A449D100970908 /* ViewController.swift */; };
 		84C11A9921A449D100970908 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 84C11A9721A449D100970908 /* Main.storyboard */; };
@@ -40,6 +41,7 @@
 		841BDFC421C00FF40043569B /* StoryboardHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoryboardHelper.swift; sourceTree = "<group>"; };
 		841BDFC821C01F390043569B /* LoggedInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInViewController.swift; sourceTree = "<group>"; };
 		841BDFCA21C020560043569B /* LoggedInPollController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoggedInPollController.swift; sourceTree = "<group>"; };
+		8476EC7121C6764400F5B2EB /* PollArchiver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PollArchiver.swift; sourceTree = "<group>"; };
 		84C11A9021A449D100970908 /* Obvious_or_not.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Obvious_or_not.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		84C11A9321A449D100970908 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		84C11A9521A449D100970908 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 				84DC17B121AC394B005516D5 /* Choice.swift */,
 				841BDFBC21BFFA7B0043569B /* AlertHelper.swift */,
 				841BDFC421C00FF40043569B /* StoryboardHelper.swift */,
+				8476EC7121C6764400F5B2EB /* PollArchiver.swift */,
 			);
 			path = Obvious_or_not;
 			sourceTree = "<group>";
@@ -279,6 +282,7 @@
 				841BDFBD21BFFA7B0043569B /* AlertHelper.swift in Sources */,
 				841BDFCB21C020560043569B /* LoggedInPollController.swift in Sources */,
 				84DC17AD21A8570E005516D5 /* PollTableCell.swift in Sources */,
+				8476EC7221C6764400F5B2EB /* PollArchiver.swift in Sources */,
 				84DC17AB21A84248005516D5 /* Poll.swift in Sources */,
 				841BDFC521C00FF40043569B /* StoryboardHelper.swift in Sources */,
 				84C11A9421A449D100970908 /* AppDelegate.swift in Sources */,
@@ -367,6 +371,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = "";
 			};
 			name = Debug;
 		};
@@ -421,6 +426,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = "";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -439,7 +445,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.supinternet.pfe.Obvious-or-not";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -458,7 +464,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.supinternet.pfe.Obvious-or-not";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

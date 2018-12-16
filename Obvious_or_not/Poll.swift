@@ -10,7 +10,27 @@ import Foundation
 import Alamofire
 import SwiftyJSON
 
-class Poll {
+class Poll: NSObject, NSCoding {
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(id, forKey: "id")
+        aCoder.encode(title, forKey: "title")
+        aCoder.encode(content, forKey: "content")
+        aCoder.encode(explanation, forKey: "explanation")
+        aCoder.encode(choices, forKey: "choices")
+        aCoder.encode(totalVotes, forKey: "totalVotes")
+        aCoder.encode(hasVoted, forKey: "hasVoted")
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        id = aDecoder.decodeObject(forKey: "id") as? String ?? "faked id"
+        title = aDecoder.decodeObject(forKey: "title") as? String ?? "fake title"
+        content = aDecoder.decodeObject(forKey: "content") as? String ?? "fake content"
+        explanation = aDecoder.decodeObject(forKey: "explanation") as? String ?? "fake explanation"
+        choices = aDecoder.decodeObject(forKey: "choices") as? [Choice] ?? []
+        totalVotes = aDecoder.decodeObject(forKey: "totalVotes") as? Int ?? 0
+        hasVoted = aDecoder.decodeObject(forKey: "hasVoted") as? Bool ?? false
+    }
+    
     var id: String
     var title: String
     var content: String
@@ -27,6 +47,7 @@ class Poll {
         self.choices = choices
         self.totalVotes = totalVotes
         self.hasVoted = hasVoted
+        super.init()
     }
 }
 
@@ -38,7 +59,7 @@ func getPollsFromJson(response: DataResponse<Any>) -> [Poll]{
         var choiceArray: [Choice] = []
         
         for (_,jsonChoice) in jsonPoll["options"]{
-            choiceArray.append(Choice(id: jsonChoice["_id"].stringValue, description: jsonChoice["text"].stringValue, voteNumber: jsonChoice["voteNumber"].intValue, percentage: jsonChoice["percentage"].floatValue, hasVoted: jsonChoice["hasVoted"].boolValue))
+            choiceArray.append(Choice(id: jsonChoice["_id"].stringValue, summary: jsonChoice["text"].stringValue, voteNumber: jsonChoice["voteNumber"].intValue, percentage: jsonChoice["percentage"].floatValue, hasVoted: jsonChoice["hasVoted"].boolValue))
         }
         
         pollArray.append(Poll(id: jsonPoll["_id"].stringValue, title: jsonPoll["title"].stringValue, content: jsonPoll["content"].stringValue, explanation: jsonPoll["explanation"].stringValue, choices: choiceArray, totalVotes: jsonPoll["totalVotes"].intValue, hasVoted: jsonPoll["hasVoted"].boolValue))
