@@ -20,9 +20,9 @@ class Choice: NSObject, NSCoding{
     required init?(coder aDecoder: NSCoder) {
         id = aDecoder.decodeObject(forKey: "id") as? String ?? "faked id"
         summary = aDecoder.decodeObject(forKey: "summary") as? String ?? "fake title"
-        voteNumber = aDecoder.decodeObject(forKey: "voteNumber") as? Int ?? 0
-        percentage = aDecoder.decodeObject(forKey: "percentage") as? Float ?? 0.0
-        hasVoted = aDecoder.decodeObject(forKey: "hasVoted") as? Bool ?? false
+        voteNumber = aDecoder.decodeInteger(forKey: "voteNumber")
+        percentage = aDecoder.decodeFloat(forKey: "percentage")
+        hasVoted = aDecoder.decodeBool(forKey: "hasVoted")
     }
     
     //text, voteNumber, hasVoted, id
