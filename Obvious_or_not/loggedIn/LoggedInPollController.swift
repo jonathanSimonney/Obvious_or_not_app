@@ -57,6 +57,8 @@ class LoggedInPollController: PollController {
                 break
             }
         }
+        
+        print(myPolls[0].hasVoted)
         ArchiveUtil.savePolls(polls: myPolls)
     }
     

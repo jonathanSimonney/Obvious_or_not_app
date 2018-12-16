@@ -27,8 +27,8 @@ class Poll: NSObject, NSCoding {
         content = aDecoder.decodeObject(forKey: "content") as? String ?? "fake content"
         explanation = aDecoder.decodeObject(forKey: "explanation") as? String ?? "fake explanation"
         choices = aDecoder.decodeObject(forKey: "choices") as? [Choice] ?? []
-        totalVotes = aDecoder.decodeObject(forKey: "totalVotes") as? Int ?? 0
-        hasVoted = aDecoder.decodeObject(forKey: "hasVoted") as? Bool ?? false
+        totalVotes = aDecoder.decodeInteger(forKey: "totalVotes")
+        hasVoted = aDecoder.decodeBool(forKey: "hasVoted")
     }
     
     var id: String
