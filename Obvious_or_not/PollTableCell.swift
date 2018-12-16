@@ -20,4 +20,8 @@ class PollTableCell: UITableViewCell{
             self.contentView.addSubviewGrid(cellTitle, grid: [1, 0, 12, 1], collNumber: 12, rowNumber: 1)
         }
     }
+    
+    func changeBackground(color: UIColor){
+        self.cellTitle.backgroundColor = color
+    }
 }

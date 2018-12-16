@@ -21,6 +21,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath as IndexPath) as! PollTableCell
         let pollTitle = polls[indexPath.row].title
         cell.prepareView(title: pollTitle)
+        if polls[indexPath.row].hasVoted{
+            cell.changeBackground(color: .green)
+        }else{
+            cell.changeBackground(color: .white)
+        }
         
         return cell
     }
@@ -37,7 +42,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         //let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath as IndexPath) as! PollTableCell
         let pollController = self.getPollController()
         pollController.setPoll(poll: polls[indexPath.row])
-        
+                
         navigationController?.pushViewController(pollController, animated: true)
     }
 

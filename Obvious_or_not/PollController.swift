@@ -49,7 +49,6 @@ class PollController: UIViewController {
         
         for (index, choice) in unwrappedPoll.choices.enumerated(){
             let choiceViewWithPercent = UILabel()
-            choiceViewWithPercent.text = choice.summary
             choiceViewWithPercent.text = choice.summary + " " + choice.percentage.description + "%"
             
             self.allChoicesWithPercent.append(choiceViewWithPercent)
@@ -57,8 +56,7 @@ class PollController: UIViewController {
             choiceWithPercentContainer.addSubviewGrid(choiceViewWithPercent, grid: [0, index, 1, index + 1], collNumber: 1, rowNumber: numberChoice)
             
             let choiceViewWithoutPercent = UILabel()
-            choiceViewWithoutPercent.text = choice.description
-            choiceViewWithoutPercent.text = choice.description
+            choiceViewWithoutPercent.text = choice.summary
             
             //adding the touch listener for choiceView without percentage
             let tap = UITapGestureRecognizer(target: self, action: #selector(vote))

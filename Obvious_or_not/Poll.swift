@@ -77,7 +77,7 @@ func getArrayPolls(completionHandler: @escaping (Array<Poll>) -> ()) {
     
     if (potToken != nil) {
         headers = [
-            "x-access-token": UserDefaults.standard.string(forKey: "userToken")!
+            "x-access-token": potToken!
         ]
     } else {
         headers = [
