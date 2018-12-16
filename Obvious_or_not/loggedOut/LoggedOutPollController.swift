@@ -19,9 +19,7 @@ class LoggedOutPollController: PollController {
     }
 
     override func voteOnChoiceWith(id: String){
-        let secondViewController:UIViewController = RegisterController()
-        
-        self.present(secondViewController, animated: true, completion: nil)
+        tabBarController?.selectedIndex = 1
     }
     
     /*
