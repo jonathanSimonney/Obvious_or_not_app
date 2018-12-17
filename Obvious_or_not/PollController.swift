@@ -53,6 +53,19 @@ class PollController: UIViewController {
         self.view.addSubviewGrid(totalVotesView, grid: [0, 18 + numberChoice, 1, 19 + numberChoice], collNumber: 1, rowNumber: 40)
         self.view.addSubviewGrid(explanationView, grid: [2, 20 + numberChoice, 38, 28 + numberChoice], collNumber: 40, rowNumber: 40)
         
+        self.showAllChoices()
+        
+        if self.shouldShowUnvotedPart(){
+            self.revealUnvotedPart()
+        }else{
+            self.hideUnvotedPart()
+        }
+    }
+    
+    func showAllChoices(){
+        let unwrappedPoll = self.poll ?? Poll(id: "default id", title: "this poll doesn't exist", content: "false content, please report this as a bug", explanation: "something wrong happened", choices: [], totalVotes: 0, hasVoted: false)
+        let numberChoice = unwrappedPoll.choices.count
+        
         for (index, choice) in unwrappedPoll.choices.enumerated(){
             let choiceViewWithPercent = UILabel()
             choiceViewWithPercent.text = choice.summary + " " + choice.percentage.description + "%"
@@ -72,8 +85,8 @@ class PollController: UIViewController {
             choiceWithPercentContainer.addSubviewGrid(backgroundGrey, grid: [0, index, 1, index + 1], collNumber: 1, rowNumber: numberChoice)
             
             choiceWithPercentContainer.addSubviewGrid(labelPercent, grid: [0, index, Int(choice.percentage), index + 1], collNumber: 100, rowNumber: numberChoice)
-        
-           choiceWithPercentContainer.addSubviewGrid(choiceViewWithPercent, grid: [0, index, 1, index + 1], collNumber: 1, rowNumber: numberChoice)
+            
+            choiceWithPercentContainer.addSubviewGrid(choiceViewWithPercent, grid: [0, index, 1, index + 1], collNumber: 1, rowNumber: numberChoice)
             
             let choiceViewWithoutPercent = UILabel()
             choiceViewWithoutPercent.text = choice.summary
@@ -86,12 +99,6 @@ class PollController: UIViewController {
             choicesId.append(choice.id)
             
             choiceWithoutPercentContainer.addSubviewGrid(choiceViewWithoutPercent, grid: [0, index, 1, index + 1], collNumber: 1, rowNumber: numberChoice)
-        }
-        
-        if self.shouldShowUnvotedPart(){
-            self.revealUnvotedPart()
-        }else{
-            self.hideUnvotedPart()
         }
     }
     

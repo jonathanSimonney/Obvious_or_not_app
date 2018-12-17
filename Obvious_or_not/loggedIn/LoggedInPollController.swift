@@ -43,6 +43,7 @@ class LoggedInPollController: PollController {
                             self.setPoll(poll: foo)
                             self.revealUnvotedPart()
                             self.updateCurrentPollInCache()
+                            self.showAllChoices()
                         } else {
                             self.showErrors(errors: ["There was an error updating the poll, please refresh the app"])
                         }
