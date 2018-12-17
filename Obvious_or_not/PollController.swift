@@ -28,7 +28,12 @@ class PollController: UIViewController {
         let unwrappedPoll = self.poll ?? Poll(id: "default id", title: "this poll doesn't exist", content: "false content, please report this as a bug", explanation: "something wrong happened", choices: [], totalVotes: 0, hasVoted: false)
 
         // Do any additional setup after loading the view.
-        titleView.text = unwrappedPoll.title
+        let underlineAttribute = [kCTUnderlineStyleAttributeName: NSUnderlineStyle.styleSingle.rawValue]
+        let underlineAttributedString = NSAttributedString(string: unwrappedPoll.title, attributes: underlineAttribute as [NSAttributedStringKey : Any])
+        titleView.attributedText = underlineAttributedString
+        
+        titleView.textAlignment = .center
+        titleView.font = titleView.font.withSize(20)
         
         contentView.text = unwrappedPoll.content
         contentView.numberOfLines = 0
@@ -37,23 +42,38 @@ class PollController: UIViewController {
         explanationView.numberOfLines = 0
         
         totalVotesView.text =  String(unwrappedPoll.totalVotes) + " votes"
+        totalVotesView.textAlignment = .center
         
         let numberChoice = unwrappedPoll.choices.count
         
-        self.view.addSubviewGrid(titleView, grid: [0, 4, 1, 5], collNumber: 1, rowNumber: 40)
-        self.view.addSubviewGrid(contentView, grid: [0, 7, 1, 10], collNumber: 1, rowNumber: 40)
-        self.view.addSubviewGrid(choiceWithPercentContainer, grid: [0, 11, 1, 12 + numberChoice], collNumber: 1, rowNumber: 40)
-        self.view.addSubviewGrid(choiceWithoutPercentContainer, grid: [0, 11, 1, 12 + numberChoice], collNumber: 1, rowNumber: 40)
-        self.view.addSubviewGrid(totalVotesView, grid: [0, 13 + numberChoice, 1, 14 + numberChoice], collNumber: 1, rowNumber: 40)
-        self.view.addSubviewGrid(explanationView, grid: [0, 15 + numberChoice, 1, 18 + numberChoice], collNumber: 1, rowNumber: 40)
+        self.view.addSubviewGrid(titleView, grid: [0, 4, 1, 7], collNumber: 1, rowNumber: 40)
+        self.view.addSubviewGrid(contentView, grid: [2, 7, 38, 15], collNumber: 40, rowNumber: 40)
+        self.view.addSubviewGrid(choiceWithPercentContainer, grid: [2, 16, 38, 17 + numberChoice], collNumber: 40, rowNumber: 40)
+        self.view.addSubviewGrid(choiceWithoutPercentContainer, grid: [2, 16, 38, 17 + numberChoice], collNumber: 40, rowNumber: 40)
+        self.view.addSubviewGrid(totalVotesView, grid: [0, 18 + numberChoice, 1, 19 + numberChoice], collNumber: 1, rowNumber: 40)
+        self.view.addSubviewGrid(explanationView, grid: [2, 20 + numberChoice, 38, 28 + numberChoice], collNumber: 40, rowNumber: 40)
         
         for (index, choice) in unwrappedPoll.choices.enumerated(){
             let choiceViewWithPercent = UILabel()
             choiceViewWithPercent.text = choice.summary + " " + choice.percentage.description + "%"
             
+            let backgroundGrey = UILabel()
+            backgroundGrey.backgroundColor = UIColor(red:0.74, green:0.76, blue:0.76, alpha:1.0)
+            backgroundGrey.layer.cornerRadius = 5
+            backgroundGrey.layer.masksToBounds = true
+            
             self.allChoicesWithPercent.append(choiceViewWithPercent)
             
-            choiceWithPercentContainer.addSubviewGrid(choiceViewWithPercent, grid: [0, index, 1, index + 1], collNumber: 1, rowNumber: numberChoice)
+            let labelPercent = UILabel()
+            labelPercent.backgroundColor = UIColor(red:0.68, green:0.85, blue:0.90, alpha:1.0)
+            labelPercent.layer.cornerRadius = 5
+            labelPercent.layer.masksToBounds = true
+            
+            choiceWithPercentContainer.addSubviewGrid(backgroundGrey, grid: [0, index, 1, index + 1], collNumber: 1, rowNumber: numberChoice)
+            
+            choiceWithPercentContainer.addSubviewGrid(labelPercent, grid: [0, index, Int(choice.percentage), index + 1], collNumber: 100, rowNumber: numberChoice)
+        
+           choiceWithPercentContainer.addSubviewGrid(choiceViewWithPercent, grid: [0, index, 1, index + 1], collNumber: 1, rowNumber: numberChoice)
             
             let choiceViewWithoutPercent = UILabel()
             choiceViewWithoutPercent.text = choice.summary
@@ -99,7 +119,7 @@ class PollController: UIViewController {
         
         for (index, choice) in (self.poll?.choices.enumerated())!{
             let choiceToChange = self.allChoicesWithPercent[index]
-            choiceToChange.text = choice.description + " " + choice.percentage.description + "%"
+            choiceToChange.text = choice.summary + " " + choice.percentage.description + "%"
         }
 
         self.explanationView.isHidden = false
